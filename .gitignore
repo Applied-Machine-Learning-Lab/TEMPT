@@ -4,7 +4,6 @@
 *.csv
 *.json
 __pycache__/
-log/
 checkpoint/
 *.out
 wandb/
