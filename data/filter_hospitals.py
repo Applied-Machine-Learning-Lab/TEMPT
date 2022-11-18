@@ -14,7 +14,6 @@ data = pickle.load(open('./eicu/handled/data-single-visit.raw.pkl', 'rb'))
 data = pd.merge(data, hos_id, how='left', on='hadm_id')
 
 # %%
-# 验证是否所有记录都有hospital id
 data.hospital_id.isna().sum()
 
 # %%

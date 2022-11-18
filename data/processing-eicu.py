@@ -14,7 +14,6 @@ def pat_process(pat_file, hos_file):
     pat_pd = pd.read_csv(pat_file)
     pat_pd = pat_pd[['patientunitstayid', 'patienthealthsystemstayid', 
                      'hospitaladmitoffset', 'hospitalid',]]
-    # 这里的startdate是为了给同一个subject下的不同hadm排序
     pat_pd.rename(columns={'patientunitstayid': 'hadm_id', 
                    'patienthealthsystemstayid': 'subject_id',
                    'hospitaladmitoffset': 'hadm_startdate',
@@ -37,7 +36,6 @@ def med_process(med_file, pat_pd):
     med_pd.drop(med_pd[med_pd.drug_id.isna()].index, inplace=True)   # remove no HICL medicine
     med_pd.drop_duplicates(inplace=True)    # drop the duplications 
     med_pd = pd.merge(med_pd, pat_pd, on='hadm_id', how='left')
-    # 先排序每个icu unit记录，再排序用药记录
     med_pd.sort_values(by=['subject_id', 'hadm_startdate', 'med_startdate'], inplace=True)
     med_pd = med_pd.reset_index(drop=True)
 
@@ -53,7 +51,6 @@ def diag_process(diag_file, pat_pd):
     #diag_pd.drop(columns=['seq_num','row_id'],inplace=True)
     diag_pd.drop_duplicates(inplace=True)
     diag_pd = pd.merge(diag_pd, pat_pd, on='hadm_id', how='left')
-    # 先排序每个icu unit记录，再排序用药记录
     diag_pd.sort_values(by=['subject_id', 'hadm_startdate', 'diag_startdate'], inplace=True)
     #diag_pd.sort_values(by=['subject_id','hadm_id'], inplace=True)
     diag_pd = diag_pd.reset_index(drop=True)
@@ -104,7 +101,7 @@ def filter_pro(pro_pd, num):
     return pro_pd.reset_index(drop=True)
 
 
-def filter_diag(diag_pd, num=128):  # 筛选出最热门的前num种diagnosis，剩下删去
+def filter_diag(diag_pd, num=128):
 
     print('filter diagnosis')
     diag_count = diag_pd.groupby(by=['ICD9_CODE']).size().reset_index().rename(
@@ -255,7 +252,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--dataset", default="demo", type=str, choices=['raw', 'demo'], help="Preprocess the raw or demo data of eICU.")
+    parser.add_argument("--dataset", default="raw", type=str, choices=['raw', 'demo'], help="Preprocess the raw or demo data of eICU.")
     args = parser.parse_args()
 
     output_dir = './data/eicu/handled/'

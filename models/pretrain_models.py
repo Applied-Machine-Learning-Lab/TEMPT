@@ -101,7 +101,6 @@ def Contrastive_Loss(X, Y, tau):
     sim_matrix = F.cosine_similarity(X.unsqueeze(1), Y.unsqueeze(0), dim=2)
     pos = torch.exp(torch.diag(sim_matrix) / tau).unsqueeze(0)   # (1, bs)
     neg = torch.sum(torch.exp(sim_matrix / tau), dim=0) - pos     # (1, bs)
-    #TODO: 这里的这个pos到底用不用减去
     loss = - torch.log(pos / neg)
     loss = torch.mean(loss)
 

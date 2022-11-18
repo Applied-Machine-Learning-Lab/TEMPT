@@ -183,7 +183,7 @@ class PretrainEHRDataset(EHRDataset):
         return cur_tensors
 
     
-    def random_word(self, tokens, vocab): # Bert中随机mask掉单词
+    def random_word(self, tokens, vocab):
         
         for i, _ in enumerate(tokens):
             prob = random.random()
@@ -279,7 +279,7 @@ class PretrainContrastiveEHRDataset(EHRDataset):
         return cur_tensors
 
     
-    def random_word(self, tokens, vocab): # Bert中随机mask掉单词
+    def random_word(self, tokens, vocab):
         
         for i, _ in enumerate(tokens):
             prob = random.random()

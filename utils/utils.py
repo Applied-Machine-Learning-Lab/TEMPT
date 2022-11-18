@@ -157,9 +157,6 @@ def set_seed(seed):
 
 def log_res(args, res, now_str, out_path):
 
-    #out_path = './prompt.json'
-    #TODO: add create the exp folder--save all of results of one experiment in a unique json
-
     if not os.path.exists(out_path):
         with open(out_path, 'w+') as f:
             json.dump({}, f)

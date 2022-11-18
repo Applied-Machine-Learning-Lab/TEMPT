@@ -1,10 +1,3 @@
-'''
-This code based on https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
-The origin code conduct early stopping according to validation loss,
-I alter it to early stop according to validation performance.
-'''
-
-
 import numpy as np
 import torch
 import os
